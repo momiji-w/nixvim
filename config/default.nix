@@ -1,10 +1,10 @@
 { pkgs, ... }:
 
 {
-  enable = true;
-  viAlias = true;
-  vimAlias = true;
-  defaultEditor = true;
+  # enable = true;
+  # viAlias = true;
+  # vimAlias = true;
+  # defaultEditor = true;
   extraPackages = [
     pkgs.ripgrep
   ];
