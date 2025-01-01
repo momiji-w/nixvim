@@ -1,10 +1,6 @@
 { pkgs, ... }:
 
 {
-  # enable = true;
-  # viAlias = true;
-  # vimAlias = true;
-  # defaultEditor = true;
   extraPackages = [
     pkgs.ripgrep
   ];
@@ -23,6 +19,7 @@
       ];
     }
   ];
+
   extraPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
      name = "vim-colors-hatsunemiku";
@@ -91,7 +88,6 @@
     };
     servers = {
       nil_ls.enable = true;
-      gopls.enable = true;
     };
   };
 
