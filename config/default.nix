@@ -1,9 +1,9 @@
 { pkgs, ... }:
 
 {
-  extraPackages = [
-    pkgs.ripgrep
-  ];
+  extraPackages = with pkgs; [ ripgrep ];
+
+  globals = { mapleader = " "; };
 
   extraConfigLua = ''
     vim.cmd.colorscheme "hatsunemiku"
@@ -11,30 +11,37 @@
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
   '';
 
-  autoCmd = [
-    {
-      command = "lua vim.lsp.buf.format()";
-      event = [
-        "BufWritePre"
-      ];
-    }
-  ];
+  autoCmd = [{
+    command = "lua vim.lsp.buf.format()";
+    event = [ "BufWritePre" ];
+  }];
 
   extraPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
-     name = "vim-colors-hatsunemiku";
-     src = pkgs.fetchFromGitHub {
-       owner = "momiji-w";
-       repo = "vim-colors-hatsunemiku";
-       rev = "1a90f30d8094123bda149ea86b0b81e2c2a515e9";
-       hash = "sha256-kIjoRFslD/wEKUk0OKum8109z/Iq4qpRuERdFMGlSCw=";
-     };
+      name = "vim-colors-hatsunemiku";
+      src = pkgs.fetchFromGitHub {
+        owner = "momiji-w";
+        repo = "vim-colors-hatsunemiku";
+        rev = "1a90f30d8094123bda149ea86b0b81e2c2a515e9";
+        hash = "sha256-kIjoRFslD/wEKUk0OKum8109z/Iq4qpRuERdFMGlSCw=";
+      };
     })
   ];
 
   plugins = {
-    telescope.enable = true;
-    telescope.extensions.fzf-native.enable = true;
+    telescope = {
+      enable = true;
+      extensions.fzf-native.enable = true;
+
+      keymaps = {
+        "<C-p>" = "git_files";
+        "<leader>ff" = "find_files";
+        "<leader>fs" = "live_grep";
+        "<leader>vh" = "help_tags";
+        "<leader>fr" = "lsp_references";
+      };
+    };
+
     treesitter.enable = true;
     web-devicons.enable = true;
 
@@ -43,51 +50,16 @@
       clipboardPackage = pkgs.wl-clipboard;
     };
 
-    markdown-preview = {
+    markdown-preview = { enable = true; };
+
+    none-ls = {
       enable = true;
-    };
-
-    harpoon = {
-      enable = true;
-      enableTelescope = true;
-
-      keymapsSilent = true;
-
-      keymaps = {
-        addFile = "<leader>a";
-        toggleQuickMenu = "<C-e>";
-        navFile = {
-          "1" = "<C-h>";
-          "2" = "<C-t>";
-          "3" = "<C-n>";
-          "4" = "<C-s>";
-        };
+      sources.formatting = {
+        yapf.enable = true; # really cool name
+        gofumpt.enable = true;
+        nixfmt.enable = true;
+        mdformat.enable = true;
       };
-    };
-  };
-
-  plugins.lsp-format.enable = true;
-  plugins.lsp = {
-    enable = true;
-    keymaps = {
-      silent = true;
-      diagnostic = {
-        "[d" = "goto_next";
-        "]d" = "goto_prev";
-      };
-
-      lspBuf = {
-        "<leader>gd" = "definition";
-        "<leader>rr" = "references";
-        "<leader>rn" = "rename";
-        "<leader>gt" = "type_definition";
-        "<leader>gi" = "implementation";
-        "<leader>ca" = "code_action";
-        K = "hover";
-      };
-    };
-    servers = {
-      nil_ls.enable = true;
     };
   };
 
@@ -117,10 +89,6 @@
     cc = "80";
   };
 
-  globals = {
-    mapleader = " ";
-  };
-
   keymaps = [
     {
       mode = "n";
@@ -141,33 +109,6 @@
       mode = "v";
       key = "K";
       action = ":m '<-2<CR>gv=gv";
-    }
-
-    { 
-      mode = "n";
-      key = "<leader>ff"; 
-      action = ":Telescope find_files<CR>";
-    }
-
-    {
-      mode = "n";
-      key = "<C-p>";
-      action = ":Telescope git_files<CR>";
-    }
-    {
-      mode = "n";
-      key = "<leader>fs";
-      action = ":Telescope live_grep<CR>";
-    }
-    {
-      mode = "n";
-      key = "<leader>vh";
-      action = ":Telescope help_tags<CR>";
-    }
-    {
-      mode = "n";
-      key ="<leader>fr";
-      action = ":Telescope lsp_references<CR>";
     }
   ];
 }
