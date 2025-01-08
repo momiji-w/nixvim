@@ -47,6 +47,26 @@
 
     markdown-preview = { enable = true; };
 
+    lsp = {
+      enable = false;
+      keymaps = {
+        silent = true;
+        diagnostic = {
+          "[d" = "goto_next";
+          "]d" = "goto_prev";
+        };
+        lspBuf = {
+          "<leader>gd" = "definition";
+          "<leader>rr" = "references";
+          "<leader>rn" = "rename";
+          "<leader>gt" = "type_definition";
+          "<leader>gi" = "implementation";
+          "<leader>ca" = "code_action";
+          K = "hover";
+        };
+      };
+    };
+
     none-ls = {
       enable = true;
       sources.formatting = {
