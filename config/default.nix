@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  extraPackages = with pkgs; [ ripgrep ];
+  extraPackages = with pkgs; [ ripgrep fd ];
 
   globals = { mapleader = " "; };
 
@@ -10,11 +10,6 @@
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
   '';
-
-  autoCmd = [{
-    command = "lua vim.lsp.buf.format()";
-    event = [ "BufWritePre" ];
-  }];
 
   extraPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
@@ -58,7 +53,7 @@
         yapf.enable = true; # really cool name
         gofumpt.enable = true;
         nixfmt.enable = true;
-        mdformat.enable = true;
+        prettier.enable = true;
       };
     };
   };
@@ -96,14 +91,14 @@
       action = ":Ex <CR>";
     }
     {
-      mode = "v";
-      key = "J";
-      action = ":m '>+1<CR>gv=gv";
+      mode = "n";
+      key = "<leader>lf";
+      action = ":lua vim.lsp.buf.format()<CR>";
     }
     {
       mode = "v";
-      key = "K";
-      action = ":m '<-2<CR>gv=gv";
+      key = "J";
+      action = ":m '>+1<CR>gv=gv";
     }
     {
       mode = "v";
