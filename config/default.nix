@@ -7,18 +7,16 @@
 
   extraConfigLua = ''
     vim.cmd.colorscheme "hatsunemiku"
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
   '';
 
   extraPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
       name = "vim-colors-hatsunemiku";
       src = pkgs.fetchFromGitHub {
-        owner = "momiji-w";
+        owner = "4513ECHO";
         repo = "vim-colors-hatsunemiku";
-        rev = "1a90f30d8094123bda149ea86b0b81e2c2a515e9";
-        hash = "sha256-kIjoRFslD/wEKUk0OKum8109z/Iq4qpRuERdFMGlSCw=";
+        rev = "eecb0f1fe4db10c312a8174d758ba275a8e95736";
+        hash = "sha256-SwY4uWql/scDe0qCq7PoPucYdNlRvLzpx8+txsfi71U=";
       };
     })
   ];
@@ -37,6 +35,7 @@
       };
     };
 
+    mkdnflow.enable = true;
     treesitter.enable = true;
     web-devicons.enable = true;
 
